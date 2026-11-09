@@ -12,24 +12,15 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Design system definition.
- *
- * The design lives in this file: oklch color tokens on the shadcn variables
- * (--background, --foreground, --primary, --secondary, --muted, --accent, ...) plus
- * new tokens as needed, font tokens, and custom styles and animations.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ * Vibe & Veste design system — Y2K dress-up game x Barbie dream house.
+ * Glossy "jelly" buttons, chrome text, game-window panels with hard pop shadows.
  */
 
 @theme inline {
+  --font-display: "Shrikhand", "Georgia", serif;
+  --font-pixel: "Silkscreen", ui-monospace, monospace;
+  --font-sans: "Baloo 2", ui-rounded, system-ui, sans-serif;
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -45,12 +36,17 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-glow: var(--primary-glow);
+  --color-primary-deep: var(--primary-deep);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-sun: var(--sun);
+  --color-chrome: var(--chrome);
+  --color-ink: var(--ink);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -73,26 +69,31 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --radius: 1rem;
+  --background: oklch(0.95 0.035 350);
+  --foreground: oklch(0.3 0.13 350);
+  --card: oklch(0.99 0.01 350);
+  --card-foreground: oklch(0.3 0.13 350);
+  --popover: oklch(0.99 0.01 350);
+  --popover-foreground: oklch(0.3 0.13 350);
+  --primary: oklch(0.63 0.24 354);
+  --primary-foreground: oklch(0.99 0.01 350);
+  --primary-glow: oklch(0.8 0.15 350);
+  --primary-deep: oklch(0.45 0.2 354);
+  --secondary: oklch(0.88 0.08 225);
+  --secondary-foreground: oklch(0.32 0.1 250);
+  --muted: oklch(0.92 0.04 350);
+  --muted-foreground: oklch(0.5 0.1 350);
+  --accent: oklch(0.88 0.13 190);
+  --accent-foreground: oklch(0.3 0.08 210);
+  --sun: oklch(0.92 0.15 100);
+  --chrome: oklch(0.93 0.01 280);
+  --ink: oklch(0.25 0.1 350);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --border: oklch(0.82 0.09 352);
+  --input: oklch(0.86 0.07 352);
+  --ring: oklch(0.63 0.24 354);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -106,41 +107,52 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+
+  --gradient-dream: radial-gradient(
+      ellipse at 20% 0%,
+      oklch(0.9 0.09 225 / 0.85),
+      transparent 55%
+    ),
+    radial-gradient(ellipse at 85% 15%, oklch(0.92 0.12 100 / 0.5), transparent 45%),
+    radial-gradient(ellipse at 50% 100%, oklch(0.78 0.18 350 / 0.7), transparent 60%),
+    linear-gradient(180deg, oklch(0.93 0.06 345), oklch(0.86 0.11 352));
+  --gradient-jelly: linear-gradient(
+    180deg,
+    oklch(0.82 0.15 350) 0%,
+    oklch(0.65 0.24 354) 50%,
+    oklch(0.56 0.24 354) 100%
+  );
+  --gradient-jelly-blue: linear-gradient(
+    180deg,
+    oklch(0.93 0.06 225) 0%,
+    oklch(0.8 0.11 225) 50%,
+    oklch(0.72 0.13 230) 100%
+  );
+  --gradient-chrome: linear-gradient(
+    180deg,
+    oklch(0.99 0 0) 0%,
+    oklch(0.86 0.03 300) 45%,
+    oklch(0.7 0.05 300) 50%,
+    oklch(0.95 0.02 300) 75%,
+    oklch(0.8 0.04 300) 100%
+  );
+  --gradient-titlebar: linear-gradient(90deg, var(--primary), oklch(0.75 0.17 345), var(--secondary));
+  --gradient-stage: radial-gradient(
+      ellipse 60% 45% at 50% 30%,
+      oklch(1 0 0 / 0.9),
+      transparent 70%
+    ),
+    linear-gradient(180deg, oklch(0.97 0.03 340), oklch(0.9 0.08 350));
+  --gradient-runway: linear-gradient(180deg, oklch(0.25 0.08 340), oklch(0.15 0.05 330));
+  --shadow-pop: 4px 4px 0 0 var(--primary-deep);
+  --shadow-pop-sm: 2px 2px 0 0 var(--primary-deep);
+  --shadow-window: 6px 6px 0 0 oklch(0.45 0.2 354 / 0.85), 0 18px 40px -12px oklch(0.45 0.2 354 / 0.45);
+  --shadow-glow: 0 0 0 3px oklch(1 0 0), 0 0 0 6px var(--primary), 0 0 24px 4px oklch(0.8 0.15 350 / 0.8);
 }
 
 .dark {
   --background: oklch(0.129 0.042 264.695);
   --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
 @layer base {
@@ -148,8 +160,284 @@
     border-color: var(--color-border);
   }
 
+  html {
+    font-family: var(--font-sans);
+  }
+
   body {
-    background-color: var(--color-background);
+    background: var(--gradient-dream);
+    background-attachment: fixed;
     color: var(--color-foreground);
+    min-height: 100vh;
+  }
+}
+
+/* Game window: 2000s app panel with glossy title bar */
+@utility window-panel {
+  background: var(--card);
+  border: 3px solid var(--primary-deep);
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow-window);
+  overflow: hidden;
+}
+
+@utility window-titlebar {
+  background: var(--gradient-titlebar);
+  color: var(--primary-foreground);
+  font-family: var(--font-pixel);
+  border-bottom: 3px solid var(--primary-deep);
+  text-shadow: 1px 1px 0 var(--primary-deep);
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 2px 6px 50% 6px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, oklch(1 0 0 / 0.55), oklch(1 0 0 / 0));
+    pointer-events: none;
+  }
+}
+
+/* Jelly / aqua glossy button */
+@utility jelly {
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: "";
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    top: 3px;
+    height: 45%;
+    border-radius: 999px;
+    background: linear-gradient(180deg, oklch(1 0 0 / 0.75), oklch(1 0 0 / 0.05));
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
+@utility chrome-text {
+  background: var(--gradient-chrome);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--primary-deep);
+  paint-order: stroke fill;
+  filter: drop-shadow(4px 4px 0 var(--primary-deep));
+}
+
+@utility pink-text {
+  background: linear-gradient(180deg, oklch(0.9 0.1 350), var(--primary) 55%, var(--primary-deep));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(3px 3px 0 oklch(1 0 0)) drop-shadow(5px 5px 0 var(--primary-deep));
+}
+
+@utility checker {
+  background-image:
+    linear-gradient(45deg, oklch(1 0 0 / 0.35) 25%, transparent 25%),
+    linear-gradient(-45deg, oklch(1 0 0 / 0.35) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, oklch(1 0 0 / 0.35) 75%),
+    linear-gradient(-45deg, transparent 75%, oklch(1 0 0 / 0.35) 75%);
+  background-size: 28px 28px;
+  background-position:
+    0 0,
+    0 14px,
+    14px -14px,
+    -14px 0;
+}
+
+@utility stage-bg {
+  background: var(--gradient-stage);
+}
+
+@utility runway-bg {
+  background: var(--gradient-runway);
+}
+
+@utility glow-ring {
+  box-shadow: var(--shadow-glow);
+}
+
+@utility pop-shadow {
+  box-shadow: var(--shadow-pop);
+}
+
+@utility pop-shadow-sm {
+  box-shadow: var(--shadow-pop-sm);
+}
+
+/* Animations */
+@keyframes layer-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.92) translateY(-6px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.7) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1) rotate(20deg);
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes burst {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.3);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(1.1);
+  }
+}
+
+@keyframes runway-walk {
+  0% {
+    transform: translateY(-14%) scale(0.55);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes step-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1.2deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(1.2deg);
+  }
+}
+
+@keyframes pose {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  30% {
+    transform: rotate(-3deg) translateX(-4px);
+  }
+  65% {
+    transform: rotate(2.5deg) translateX(4px);
+  }
+}
+
+@keyframes flash {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  4% {
+    opacity: 0.9;
+  }
+  14% {
+    opacity: 0;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes bubble-in {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@utility animate-layer-pop {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: layer-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@utility animate-twinkle {
+  animation: twinkle 2.4s ease-in-out infinite;
+}
+
+@utility animate-float {
+  animation: float-y 4s ease-in-out infinite;
+}
+
+@utility animate-burst {
+  animation: burst 0.8s ease-out forwards;
+}
+
+@utility animate-runway {
+  animation: runway-walk 4.2s cubic-bezier(0.3, 0.1, 0.3, 1) forwards;
+}
+
+@utility animate-step {
+  animation: step-bob 0.6s ease-in-out 6;
+}
+
+@utility animate-pose {
+  animation: pose 3.2s ease-in-out infinite;
+}
+
+@utility animate-flash {
+  animation: flash 2.6s ease-out infinite;
+}
+
+@utility animate-marquee {
+  animation: marquee 22s linear infinite;
+}
+
+@utility animate-bubble {
+  animation: bubble-in 0.3s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
