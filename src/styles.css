@@ -248,6 +248,18 @@
     -14px 0;
 }
 
+@utility bg-jelly {
+  background: var(--gradient-jelly);
+}
+
+@utility bg-jelly-blue {
+  background: var(--gradient-jelly-blue);
+}
+
+@utility bg-chrome {
+  background: var(--gradient-chrome);
+}
+
 @utility stage-bg {
   background: var(--gradient-stage);
 }
