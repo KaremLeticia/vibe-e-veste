@@ -33,7 +33,7 @@ function Kinky({ id, h }: { id: string; h: HairColor }) {
 function bumpRing(cx: number, cy: number, R: number, n: number, r: number) {
   return Array.from({ length: n }, (_, i) => {
     const a = (i / n) * Math.PI * 2;
-    return [cx + Math.cos(a) * R, cy + Math.sin(a) * R, r] as const;
+    return [Math.round((cx + Math.cos(a) * R) * 100) / 100, Math.round((cy + Math.sin(a) * R) * 100) / 100, r] as const;
   });
 }
 
@@ -113,8 +113,8 @@ export const HAIR_ART: Record<string, ArtEntry> = {
         render: ({ hair: h }) => (
           <g>
             <ellipse cx="150" cy="122" rx="62" ry="82" fill={h.base} />
-            {bumpRing(150, 122, 64, 18, 18).map(([x, y, r]) => (
-              <Curl key={`${x}`} x={x} y={y} r={r} h={h} />
+            {bumpRing(150, 122, 64, 18, 18).map(([x, y, r], i) => (
+              <Curl key={i} x={x} y={y} r={r} h={h} />
             ))}
           </g>
         ),
@@ -143,7 +143,7 @@ export const HAIR_ART: Record<string, ArtEntry> = {
               [143, 66, 10],
               [158, 66, 10],
             ].map(([x, y, r]) => (
-              <Curl key={`${x}-${y}`} x={x} y={y} r={r} h={h} />
+              <Curl key={`${x}-${y}`} x={x!} y={y!} r={r!} h={h} />
             ))}
           </g>
         ),
@@ -157,8 +157,8 @@ export const HAIR_ART: Record<string, ArtEntry> = {
         render: ({ hair: h, uid }) => (
           <g>
             <Kinky id={`${uid}-kbp`} h={h} />
-            {bumpRing(150, 90, 72, 26, 12).map(([x, y, r]) => (
-              <circle key={`${x}`} cx={x} cy={y} r={r} fill={h.base} />
+            {bumpRing(150, 90, 72, 26, 12).map(([x, y, r], i) => (
+              <circle key={i} cx={x} cy={y} r={r} fill={h.base} />
             ))}
             <circle cx="150" cy="90" r="74" fill={h.base} />
             <circle cx="150" cy="90" r="82" fill={`url(#${uid}-kbp)`} />
@@ -218,7 +218,7 @@ export const HAIR_ART: Record<string, ArtEntry> = {
               [199, 52],
             ].map(([cx, cy]) => (
               <g key={cx}>
-                {bumpRing(cx, cy, 30, 14, 8).map(([x, y, r]) => (
+                {bumpRing(cx!, cy!, 30, 14, 8).map(([x, y, r]) => (
                   <circle key={`${x}-${y}`} cx={x} cy={y} r={r} fill={h.base} />
                 ))}
                 <circle cx={cx} cy={cy} r="31" fill={h.base} />

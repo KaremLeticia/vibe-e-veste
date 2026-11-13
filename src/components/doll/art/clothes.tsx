@@ -114,7 +114,7 @@ export const TOP_ART: Record<string, ArtEntry> = {
               [130, 236],
               [172, 232],
             ].map(([x, y]) => (
-              <path key={`${x}${y}`} d={heartPath(x, y, 3)} fill="#FFFFFF" opacity="0.85" />
+              <path key={`${x}${y}`} d={heartPath(x!, y!, 3)} fill="#FFFFFF" opacity="0.85" />
             ))}
           </g>
         ),
@@ -390,7 +390,7 @@ export const DRESS_ART: Record<string, ArtEntry> = {
               [196, 380],
               [104, 520],
             ].map(([x, y]) => (
-              <Star key={`${x}${y}`} x={x} y={y} r={4.5} />
+              <Star key={`${x}${y}`} x={x!} y={y!} r={4.5} />
             ))}
           </g>
         ),
@@ -518,7 +518,7 @@ export const DRESS_ART: Record<string, ArtEntry> = {
               [180, 530],
               [150, 480],
             ].map(([x, y]) => (
-              <Star key={`${x}${y}`} x={x} y={y} r={3.6} />
+              <Star key={`${x}${y}`} x={x!} y={y!} r={3.6} />
             ))}
           </g>
         ),

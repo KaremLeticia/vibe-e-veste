@@ -124,8 +124,8 @@ function sanitize(raw: unknown): { composition: Composition; phase: Phase } | nu
   return {
     composition: {
       characterId: c.characterId as string,
-      skinToneId: SKIN_TONES.some((s) => s.id === c.skinToneId) ? (c.skinToneId as string) : SKIN_TONES[0].id,
-      hairColorId: HAIR_COLORS.some((h) => h.id === c.hairColorId) ? (c.hairColorId as string) : HAIR_COLORS[0].id,
+      skinToneId: SKIN_TONES.some((s) => s.id === c.skinToneId) ? (c.skinToneId as string) : SKIN_TONES[0]!.id,
+      hairColorId: HAIR_COLORS.some((h) => h.id === c.hairColorId) ? (c.hairColorId as string) : HAIR_COLORS[0]!.id,
       itemIds: Array.isArray(c.itemIds) ? c.itemIds.filter((id): id is string => typeof id === "string" && known.has(id)) : [],
       lookName: typeof c.lookName === "string" ? c.lookName.slice(0, 40) : "",
     },
@@ -135,7 +135,7 @@ function sanitize(raw: unknown): { composition: Composition; phase: Phase } | nu
 
 export function useStudio() {
   const [state, dispatch] = useReducer(reducer, undefined, () => ({
-    history: createHistory(createComposition(CHARACTERS[0].id)),
+    history: createHistory(createComposition(CHARACTERS[0]!.id)),
     phase: "select" as Phase,
     feedback: null,
   }));

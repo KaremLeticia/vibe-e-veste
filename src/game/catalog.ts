@@ -178,10 +178,10 @@ export const LOOK_NAME_SUGGESTIONS = [
 export const itemById = (id: string): Item | undefined => ITEMS.find((i) => i.id === id);
 export const categoryById = (id: string): Category | undefined => CATEGORIES.find((c) => c.id === id);
 export const characterById = (id: string): Character =>
-  CHARACTERS.find((c) => c.id === id) ?? CHARACTERS[0];
+  CHARACTERS.find((c) => c.id === id) ?? CHARACTERS[0]!;
 export const skinToneById = (id: string): SkinTone =>
-  SKIN_TONES.find((s) => s.id === id) ?? SKIN_TONES[0];
+  SKIN_TONES.find((s) => s.id === id) ?? SKIN_TONES[0]!;
 export const hairColorById = (id: string): HairColor =>
-  HAIR_COLORS.find((h) => h.id === id) ?? HAIR_COLORS[0];
+  HAIR_COLORS.find((h) => h.id === id) ?? HAIR_COLORS[0]!;
 export const itemsByCategory = (categoryId: string): Item[] =>
   ITEMS.filter((i) => i.category === categoryId);

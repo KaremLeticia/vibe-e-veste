@@ -107,7 +107,7 @@ export function FinalLook({
 
   const suggest = () => {
     const options = LOOK_NAME_SUGGESTIONS.filter((s) => s !== composition.lookName);
-    studio.rename(options[(take + options.length + pieces) % options.length]);
+    studio.rename(options[(take + options.length + pieces) % options.length] ?? "");
     setTake((t) => t + 1);
   };
 

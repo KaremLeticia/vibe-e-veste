@@ -24,7 +24,7 @@ export function Stage({ studio }: { studio: Studio }) {
         <SparkleBurst burstKey={feedback?.nonce ?? 0} />
         <Doll
           composition={composition}
-          animateIds={feedback?.ids}
+          animateIds={feedback?.ids ?? []}
           className="relative z-[1] mb-6 h-[min(68vh,640px)] w-auto drop-shadow-xl"
         />
         <div aria-live="polite" className="absolute left-3 right-3 top-3 z-20 flex justify-center">

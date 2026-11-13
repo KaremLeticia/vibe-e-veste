@@ -99,7 +99,7 @@ export function commit(history: History, next: Composition): History {
 export function undo(history: History): History {
   if (history.past.length === 0) return history;
   const past = history.past.slice(0, -1);
-  return { past, present: history.past[history.past.length - 1] };
+  return { past, present: history.past[history.past.length - 1]! };
 }
 
 export function canUndo(history: History): boolean {
