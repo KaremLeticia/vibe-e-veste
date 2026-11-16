@@ -1,5 +1,5 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { Crown, HelpCircle, RotateCcw, Undo2, Users } from "lucide-react";
+import { Crown, HelpCircle, Home, RotateCcw, Undo2, Users } from "lucide-react";
 import { useState } from "react";
 
 import { GameButton } from "@/components/game/GameButton";
@@ -38,6 +38,11 @@ function StudioPage() {
         <Link to="/" className="chrome-text mr-auto font-display text-3xl sm:text-4xl" aria-label="Vibe & Veste — início">
           Vibe &amp; Veste
         </Link>
+        <GameButton asChild variant="soft" size="sm">
+          <Link to="/">
+            <Home /> <span>Início</span>
+          </Link>
+        </GameButton>
         <GameButton variant="soft" size="sm" onClick={() => setHelpOpen(true)}>
           <HelpCircle /> <span className="hidden sm:inline">Como jogar</span>
         </GameButton>
@@ -61,9 +66,9 @@ function StudioPage() {
 
       <main className="mx-auto max-w-[1400px]">
         {dressing ? (
-          <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(400px,520px)]">
+          <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_minmax(320px,480px)]">
             <Stage studio={studio} />
-            <div className="lg:max-h-[calc(100vh-6rem)]">
+            <div className="md:max-h-[calc(100vh-6rem)]">
               <ItemPanel studio={studio} active={category} onChange={setCategory} />
             </div>
           </div>

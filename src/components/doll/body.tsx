@@ -90,7 +90,7 @@ export function Body({ skin, uid }: { skin: SkinTone; uid: string }) {
         <ellipse cx="111" cy="104" rx="6" ry="9" fill={skin.base} />
         <path d="M110 99 Q107.5 104 110 109" stroke={skin.shade} strokeWidth="1.4" fill="none" strokeLinecap="round" />
       </Both>
-      <path d={FACE_SHAPE} fill={skin.base} />
+      <path d={FACE_SHAPE} fill={skin.base} stroke="#4A2328" strokeOpacity="0.55" strokeWidth="1.4" />
       {/* jaw contour + forehead highlight */}
       <path d="M118 124 Q132 146 150 148 Q168 146 182 124 Q172 140 150 143 Q128 140 118 124 Z" fill={skin.shade} opacity="0.35" />
       <ellipse cx="150" cy="74" rx="18" ry="9" fill={`url(#${hl})`} />
@@ -98,54 +98,49 @@ export function Body({ skin, uid }: { skin: SkinTone; uid: string }) {
   );
 }
 
+const INK = "#4A2328";
+
 function Eye({ look, skin, uid }: { look: CharacterLook; skin: SkinTone; uid: string }) {
   const clip = `${uid}-eyeclip`;
   const iris = `${uid}-iris`;
-  const white =
-    look.eyeShape === "almond"
-      ? "M120 106 Q128 95 145 100 Q142 112 131 113 Q123 112 120 106 Z"
-      : look.eyeShape === "sleepy"
-        ? "M121 106 Q132 100 145 104 Q142 115 132 115 Q124 114 121 106 Z"
-        : "M121 105 Q127 94 136 94.5 Q144 96 145.5 104 Q143 114 132 114.5 Q123 113 121 105 Z";
+  const white = "M118 103.5 Q126 94 138.5 95.5 Q146 97.5 148.5 107 Q140 116 129 114.5 Q121 112 118 103.5 Z";
   const lid =
-    look.eyeShape === "almond"
-      ? "M119 106.5 Q127 93.5 146 99.5 L152 95.5 Q146 102.5 145 101.5 Q128 96 120.5 107.5 Z"
-      : look.eyeShape === "sleepy"
-        ? "M120 106.5 Q132 98.5 146 103.5 L150 101 Q146 106 145 105 Q132 101 121.5 107.5 Z"
-        : "M120 105.5 Q126 92 136 92.8 Q145 94 147 102 L151 99.5 Q147 105 145.5 104.5 Q143 96.5 136 96 Q127 95.5 121.5 106.5 Z";
+    "M149.5 107.5 Q146.5 92.5 136.5 91.5 Q122 91.5 108.5 95 Q115 98.5 117.5 104 Q126 95.5 138.5 97 Q145 98.5 149.5 107.5 Z";
   return (
     <g>
       <defs>
         <clipPath id={clip}>
           <path d={white} />
         </clipPath>
-        <radialGradient id={iris} cx="0.5" cy="0.62" r="0.55">
-          <stop offset="0" stopColor="#FFFFFF" stopOpacity="0.55" />
-          <stop offset="0.35" stopColor={look.eyeColor} />
+        <radialGradient id={iris} cx="0.5" cy="0.7" r="0.6">
+          <stop offset="0" stopColor={look.eyeColor} />
+          <stop offset="0.55" stopColor={look.eyeColor} />
           <stop offset="1" stopColor={LASH} />
         </radialGradient>
       </defs>
-      {/* eyeshadow, swept outwards */}
-      <path d="M118 104 Q126 84 142 90 Q150 94 152 99 Q140 90 128 94 Q121 98 118 104 Z" fill={look.shadowColor} opacity="0.5" />
+      {/* soft smoky shadow on the lid */}
+      <path d="M116 100 Q124 84 140 86.5 Q149 89 151 100 Q142 91 130 92 Q121 94 116 100 Z" fill={look.shadowColor} opacity="0.45" />
       <path d={white} fill="#FFFFFF" />
       <g clipPath={`url(#${clip})`}>
-        <circle cx="133.5" cy="106" r="7.6" fill={`url(#${iris})`} />
-        <circle cx="133.5" cy="106" r="3.3" fill="#120609" />
-        <circle cx="136.4" cy="102.8" r="2.3" fill="#FFFFFF" />
-        <circle cx="130.8" cy="109.4" r="1.1" fill="#FFFFFF" />
-        {look.eyeShape === "sleepy" && <path d="M118 92 L150 92 L150 104 Q132 99 118 107 Z" fill={skin.base} />}
+        <circle cx="134" cy="105.5" r="8.8" fill={`url(#${iris})`} />
+        <circle cx="134" cy="105.5" r="4" fill="#120609" />
+        <circle cx="137.2" cy="101.8" r="2.6" fill="#FFFFFF" />
+        <circle cx="130.8" cy="109.2" r="1.2" fill="#FFFFFF" />
+        {look.eyeShape === "sleepy" && <path d="M114 90 L152 90 L152 101 Q134 97 114 104 Z" fill={skin.shade} />}
       </g>
-      {/* winged liner + lashes */}
+      {/* bold winged liner + lashes */}
       <path d={lid} fill={LASH} />
-      <path d="M124 100 L120.5 96.5 M127.5 97.6 L125 93.2 M131.5 96 L130.5 91.4" stroke={LASH} strokeWidth="1.4" strokeLinecap="round" />
+      <path d="M120.5 97.5 L114.5 91 M125.5 94.6 L121.5 87.8 M131 93 L129 86.6" stroke={LASH} strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M119.5 106 Q127 115.5 140.5 114.3" stroke={LASH} strokeWidth="1.3" fill="none" strokeLinecap="round" />
+      <path d="M123 111.5 L120.5 114.5 M127.5 113.6 L126 116.8" stroke={LASH} strokeWidth="1" strokeLinecap="round" />
     </g>
   );
 }
 
 const BROWS = {
-  soft: "M123 86 Q131 81 142 84 Q131 83.5 123 86 Z",
-  arched: "M122 88 Q129 78 143 83.5 Q129 81.5 122 88 Z",
-  straight: "M123 85.5 Q132 83 142 85 Q132 85.5 123 85.5 Z",
+  soft: "M119 89 Q127 80 145 83 L145.5 86.5 Q130 84 120.5 91 Z",
+  arched: "M118 90 Q126 76.5 145 82 L145.5 86 Q129 81 119.5 92 Z",
+  straight: "M120 87.5 Q131 83 145.5 84 L145.5 87.5 Q131 86.5 120.5 89.5 Z",
 };
 
 export function Face({ look, skin, hair, uid }: { look: CharacterLook; skin: SkinTone; hair: HairColor; uid: string }) {
@@ -154,53 +149,47 @@ export function Face({ look, skin, hair, uid }: { look: CharacterLook; skin: Ski
     <g>
       <defs>
         <radialGradient id={blush} cx="0.5" cy="0.5" r="0.5">
-          <stop offset="0" stopColor="#FF6F9F" stopOpacity="0.5" />
-          <stop offset="1" stopColor="#FF6F9F" stopOpacity="0" />
+          <stop offset="0" stopColor="#E8506F" stopOpacity="0.45" />
+          <stop offset="1" stopColor="#E8506F" stopOpacity="0" />
         </radialGradient>
       </defs>
       <Both>
-        <ellipse cx="124" cy="122" rx="12" ry="7" fill={`url(#${blush})`} />
-        {/* cheekbone highlighter */}
-        <ellipse cx="127" cy="117" rx="5" ry="1.6" fill="#FFFFFF" opacity="0.35" />
+        <ellipse cx="125" cy="123" rx="12" ry="7" fill={`url(#${blush})`} />
+        <ellipse cx="127" cy="118" rx="5" ry="1.6" fill="#FFFFFF" opacity="0.3" />
       </Both>
       <Eye look={look} skin={skin} uid={`${uid}-l`} />
       <Mirror>
         <Eye look={look} skin={skin} uid={`${uid}-r`} />
       </Mirror>
       <Both>
-        <path d={BROWS[look.brow]} stroke={hair.shade} strokeWidth="2.6" fill={hair.shade} strokeLinecap="round" strokeLinejoin="round" />
+        <path d={BROWS[look.brow]} fill={hair.shade} stroke={INK} strokeWidth="0.8" strokeLinejoin="round" />
       </Both>
-      {/* nose: soft shadow + highlight */}
-      <path d="M146.5 119 Q150 122.5 153.5 119" stroke={skin.shade} strokeWidth="1.6" fill="none" strokeLinecap="round" />
-      <path d="M150 104 L150 115" stroke="#FFFFFF" strokeWidth="1.4" opacity="0.35" strokeLinecap="round" />
-      {/* glossy lips */}
-      <path d="M139 131 Q144.5 125 150 128 Q155.5 125 161 131 Q150 133 139 131 Z" fill={look.lipColor} />
-      <path d="M139 131 Q150 142.5 161 131 Q150 133 139 131 Z" fill={look.lipColor} />
-      <path d="M139 131 Q150 142.5 161 131 Q150 139 139 131 Z" fill="#000000" opacity="0.12" />
-      <path d="M139.5 131 Q150 133.6 160.5 131" stroke="#00000045" strokeWidth="0.9" fill="none" strokeLinecap="round" />
-      <path d="M145 135.4 Q150 137.6 155 135.4" stroke="#FFFFFF" strokeWidth="1.6" fill="none" opacity="0.75" strokeLinecap="round" />
-      <circle cx="147" cy="128.6" r="0.9" fill="#FFFFFF" opacity="0.7" />
+      {/* nose */}
+      <path d="M150 106 Q148.5 113 147 118" stroke={skin.shade} strokeWidth="1.3" fill="none" strokeLinecap="round" />
+      <path d="M146 120 Q150 123 154 120" stroke={INK} strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.7" />
+      <path d="M151.5 107 L151.5 115" stroke="#FFFFFF" strokeWidth="1.3" opacity="0.4" strokeLinecap="round" />
+      {/* full glossy lips with ink outline */}
+      <path d="M137.5 131.5 Q143 124 150 127.5 Q157 124 162.5 131.5 Q150 134 137.5 131.5 Z" fill={look.lipColor} stroke={INK} strokeWidth="0.9" strokeLinejoin="round" />
+      <path d="M137.5 131.5 Q150 146 162.5 131.5 Q150 134 137.5 131.5 Z" fill={look.lipColor} stroke={INK} strokeWidth="0.9" strokeLinejoin="round" />
+      <path d="M140 132.5 Q150 143 160 132.5 Q150 140 140 132.5 Z" fill="#000000" opacity="0.15" />
+      <path d="M138 131.6 Q150 134.6 162 131.6" stroke={INK} strokeWidth="1.2" fill="none" strokeLinecap="round" />
+      <path d="M145 137 Q150 139.4 155 137" stroke="#FFFFFF" strokeWidth="1.8" fill="none" opacity="0.8" strokeLinecap="round" />
+      <path d="M143.5 128.6 Q145.5 127.4 147.5 128.4" stroke="#FFFFFF" strokeWidth="1" fill="none" opacity="0.7" strokeLinecap="round" />
       {look.freckles && (
-        <g fill={skin.shade}>
+        <g fill={skin.shade === skin.base ? INK : INK} opacity="0.4">
           {[
-            [124, 116],
-            [129, 119],
-            [121, 120],
-            [133, 117.5],
-            [176, 116],
-            [171, 119],
-            [179, 120],
-            [167, 117.5],
+            [140, 117], [143, 120], [138, 121], [124, 117], [129, 120], [121, 121], [133, 118],
+            [160, 117], [157, 120], [162, 121], [176, 117], [171, 120], [179, 121], [167, 118],
           ].map(([x, y]) => (
-            <circle key={`${x}-${y}`} cx={x} cy={y} r="1.1" />
+            <circle key={`${x}-${y}`} cx={x} cy={y} r="0.95" />
           ))}
         </g>
       )}
-      {look.beautyMark && <circle cx="167" cy="129" r="1.5" fill="#3A2226" />}
+      {look.beautyMark && <circle cx="167" cy="130" r="1.5" fill="#3A2226" />}
       {look.cheekSparkles && (
         <Both>
-          <Star x={120} y={120} r={3.6} fill="#FFF6C7" />
-          <Star x={126.5} y={126} r={2} fill="#FFFFFF" />
+          <Star x={119} y={124} r={3.4} fill="#FFF6C7" />
+          <Star x={125} y={129.5} r={1.9} fill="#FFFFFF" />
         </Both>
       )}
     </g>

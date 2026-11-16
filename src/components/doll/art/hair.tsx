@@ -295,6 +295,35 @@ export const HAIR_ART: Record<string, ArtEntry> = {
       },
     ],
   },
+  "hair-chiquinhas": {
+    parts: [
+      {
+        layer: "hairBack",
+        render: ({ hair: h }) => (
+          <Both>
+            <path d="M124 50 Q100 40 94 80 Q86 150 94 225 Q98 275 114 305 Q118 262 113 222 Q106 155 113 95 Q117 70 132 60 Z" fill={h.base} stroke={h.shade} strokeWidth="1.2" />
+            <path d="M104 90 Q97 160 104 230 M110 110 Q106 180 110 260" stroke={h.shade} strokeWidth="1.4" fill="none" opacity="0.7" />
+            <path d="M100 80 Q96 120 98 160" stroke={h.shine} strokeWidth="2.5" fill="none" opacity="0.6" strokeLinecap="round" />
+          </Both>
+        ),
+      },
+      {
+        layer: "hairFront",
+        render: ({ hair: h }) => (
+          <g>
+            <path d={CAP_SLICK} fill={h.base} />
+            <path d="M150 48 L150 66" stroke={h.shade} strokeWidth="1.6" />
+            <path d="M120 64 Q134 56 148 54 M152 54 Q166 56 180 64" stroke={h.shade} strokeWidth="1.2" fill="none" opacity="0.7" />
+            <Both>
+              <ellipse cx="124" cy="53" rx="6" ry="4.5" fill="#1E1418" />
+              <path d="M113 78 Q105 120 112 168 Q116 140 117 110 Q118 92 122 80 Z" fill={h.base} stroke={h.shade} strokeWidth="1" />
+            </Both>
+            {shine(h, "M122 66 Q134 57 146 56")}
+          </g>
+        ),
+      },
+    ],
+  },
   "hair-coque": {
     parts: [
       {

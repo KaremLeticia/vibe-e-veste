@@ -160,6 +160,42 @@ export const ACCESSORY_ART: Record<string, ArtEntry> = {
       },
     ],
   },
+  "acc-argolas-prata": {
+    thumb: "84 80 132 76",
+    parts: [
+      {
+        layer: "ears",
+        render: () => (
+          <Both>
+            <circle cx="108" cy="126" r="14" fill="none" stroke="#8E95A8" strokeWidth="4.2" />
+            <circle cx="108" cy="126" r="14" fill="none" stroke="#E9ECF5" strokeWidth="2.2" />
+            <path d="M97 119 Q99 113 104 112" stroke="#FFFFFF" strokeWidth="1.4" fill="none" strokeLinecap="round" />
+          </Both>
+        ),
+      },
+    ],
+  },
+  "acc-choker-borboleta": {
+    thumb: "112 130 76 60",
+    parts: [
+      {
+        layer: "neck",
+        render: () => (
+          <g>
+            <path d="M139.5 154 Q150 159 160.5 154" stroke="#1E1418" strokeWidth="2.2" fill="none" />
+            <path d="M150 159 L150 164" stroke="#1E1418" strokeWidth="1.2" />
+            <g fill="#1E1418">
+              <path d="M150 170 Q141 160 140 166 Q140 172 150 171 Z" />
+              <path d="M150 170 Q159 160 160 166 Q160 172 150 171 Z" />
+              <path d="M150 171 Q143 177 144.5 179 Q148 179 150 172 Z" />
+              <path d="M150 171 Q157 177 155.5 179 Q152 179 150 172 Z" />
+            </g>
+            <path d="M143 165 Q144 163.5 146 164" stroke="#FFFFFF" strokeWidth="0.8" fill="none" opacity="0.7" />
+          </g>
+        ),
+      },
+    ],
+  },
   "acc-baguete": {
     thumb: "60 296 76 80",
     parts: [

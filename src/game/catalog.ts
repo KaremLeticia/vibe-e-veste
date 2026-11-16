@@ -24,6 +24,7 @@ export const ITEMS: Item[] = [
   { id: "hair-puffs", category: "hair", name: "Afro puffs", tag: "crespo" },
   { id: "hair-chanel", category: "hair", name: "Chanel com franja", tag: "liso curto" },
   { id: "hair-rabo", category: "hair", name: "Rabo de cavalo", tag: "preso" },
+  { id: "hair-chiquinhas", category: "hair", name: "Chiquinhas altas", tag: "preso" },
   { id: "hair-coque", category: "hair", name: "Coque Y2K com mechas", tag: "preso" },
 
   // Partes de cima
@@ -71,6 +72,8 @@ export const ITEMS: Item[] = [
   { id: "acc-choker", category: "accessory", name: "Choker de coração", slot: "pescoço", tag: "pescoço" },
   { id: "acc-perolas", category: "accessory", name: "Colar de pérolas", slot: "pescoço", tag: "pescoço" },
   { id: "acc-argolas", category: "accessory", name: "Argolas douradas", slot: "orelhas", tag: "orelhas" },
+  { id: "acc-argolas-prata", category: "accessory", name: "Argolas prateadas", slot: "orelhas", tag: "orelhas" },
+  { id: "acc-choker-borboleta", category: "accessory", name: "Choker borboleta", slot: "pescoço", tag: "pescoço" },
   { id: "acc-baguete", category: "accessory", name: "Bolsa baguete", slot: "bolsa", tag: "bolsa" },
   { id: "acc-bolsa-coracao", category: "accessory", name: "Bolsa coração", slot: "bolsa", tag: "bolsa" },
   { id: "acc-flip", category: "accessory", name: "Celular flip", slot: "mão", tag: "mão" },
