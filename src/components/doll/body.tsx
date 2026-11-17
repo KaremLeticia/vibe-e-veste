@@ -2,7 +2,7 @@ import type { CharacterLook, HairColor, SkinTone } from "@/game/types";
 
 import { Both, LEG_LEFT, Mirror, Star, TORSO } from "./shapes";
 
-const LASH = "#24101A";
+const LASH = "#3A1C1E";
 
 /** Tapered arm (shoulder → elbow → wrist) that stays inside the sleeve footprint. */
 const ARM_SHAPE =
@@ -11,7 +11,7 @@ const ARM_SHAPE =
 const HAND_SHAPE =
   "M91 312 L101 312 Q104 322 102 332 Q101 340 97 344 Q95 346 93 343 Q90 338 90 330 Q89 320 91 312 Z";
 const FACE_SHAPE =
-  "M110 96 Q110 52 150 52 Q190 52 190 96 Q190 122 176 136 Q163 148 150 148 Q137 148 124 136 Q110 122 110 96 Z";
+  "M112 94 Q112 52 150 52 Q188 52 188 94 Q188 116 178 130 Q164 147 150 149 Q136 147 122 130 Q112 116 112 94 Z";
 
 export function Body({ skin, uid }: { skin: SkinTone; uid: string }) {
   const clip = `${uid}-bodyclip`;
@@ -46,27 +46,27 @@ export function Body({ skin, uid }: { skin: SkinTone; uid: string }) {
 
       {/* legs */}
       <Both>
-        <path d={LEG_LEFT} fill={`url(#${gv})`} />
+        <path d={LEG_LEFT} fill={`url(#${gv})`} stroke="#7A3E3A" strokeOpacity="0.55" strokeWidth="1.1" />
         {/* knee + shin highlight */}
         <path d="M128 432 Q135 438 142 432" stroke={skin.shade} strokeWidth="1.3" fill="none" strokeLinecap="round" opacity="0.6" />
         <ellipse cx="138" cy="470" rx="2.4" ry="22" fill={`url(#${hl})`} />
         <ellipse cx="135" cy="372" rx="4" ry="26" fill={`url(#${hl})`} opacity="0.7" />
         {/* pointed doll foot */}
-        <path d="M127 540 L143 540 Q144 552 140 558 Q134 562 129 557 Q126 550 127 540 Z" fill={skin.base} />
+        <path d="M127 540 L143 540 Q144 552 140 558 Q134 562 129 557 Q126 550 127 540 Z" fill={skin.base} stroke="#7A3E3A" strokeOpacity="0.55" strokeWidth="1.1" />
       </Both>
 
       {/* arms + hands */}
       <Both>
-        <path d={ARM_SHAPE} fill={`url(#${gv})`} />
+        <path d={ARM_SHAPE} fill={`url(#${gv})`} stroke="#7A3E3A" strokeOpacity="0.55" strokeWidth="1.1" />
         <path d="M100 254 Q103 257 106 254" stroke={skin.shade} strokeWidth="1.1" fill="none" strokeLinecap="round" opacity="0.6" />
-        <path d={HAND_SHAPE} fill={skin.base} />
+        <path d={HAND_SHAPE} fill={skin.base} stroke="#7A3E3A" strokeOpacity="0.55" strokeWidth="1.1" />
         <path d="M94 326 Q95 336 96 341 M97.5 326 Q99 334 99 339" stroke={skin.shade} strokeWidth="0.8" fill="none" strokeLinecap="round" opacity="0.7" />
         {/* tiny pink nail */}
         <ellipse cx="96" cy="342.5" rx="1.4" ry="1.1" fill="#FF7FB0" />
       </Both>
 
       {/* torso */}
-      <path d={TORSO} fill={`url(#${g})`} />
+      <path d={TORSO} fill={`url(#${g})`} stroke="#7A3E3A" strokeOpacity="0.55" strokeWidth="1.1" />
       {/* neck */}
       <path d="M140 130 L160 130 Q159 150 162 172 L138 172 Q141 150 140 130 Z" fill={skin.base} />
       <path d="M140 136 Q150 156 160 136 L160 130 L140 130 Z" fill={skin.shade} opacity="0.85" />
@@ -90,7 +90,7 @@ export function Body({ skin, uid }: { skin: SkinTone; uid: string }) {
         <ellipse cx="111" cy="104" rx="6" ry="9" fill={skin.base} />
         <path d="M110 99 Q107.5 104 110 109" stroke={skin.shade} strokeWidth="1.4" fill="none" strokeLinecap="round" />
       </Both>
-      <path d={FACE_SHAPE} fill={skin.base} stroke="#4A2328" strokeOpacity="0.55" strokeWidth="1.4" />
+      <path d={FACE_SHAPE} fill={skin.base} stroke="#7A3E3A" strokeOpacity="0.6" strokeWidth="1.2" />
       {/* jaw contour + forehead highlight */}
       <path d="M118 124 Q132 146 150 148 Q168 146 182 124 Q172 140 150 143 Q128 140 118 124 Z" fill={skin.shade} opacity="0.35" />
       <ellipse cx="150" cy="74" rx="18" ry="9" fill={`url(#${hl})`} />
@@ -105,7 +105,7 @@ function Eye({ look, skin, uid }: { look: CharacterLook; skin: SkinTone; uid: st
   const iris = `${uid}-iris`;
   const white = "M118 103.5 Q126 94 138.5 95.5 Q146 97.5 148.5 107 Q140 116 129 114.5 Q121 112 118 103.5 Z";
   const lid =
-    "M149.5 107.5 Q146.5 92.5 136.5 91.5 Q122 91.5 108.5 95 Q115 98.5 117.5 104 Q126 95.5 138.5 97 Q145 98.5 149.5 107.5 Z";
+    "M148.5 106 Q145 94.5 136.5 94 Q124 94 113 97 Q116 99.5 118 103.5 Q126 96 138.5 97 Q145 98.5 148.5 106 Z";
   return (
     <g>
       <defs>
@@ -119,7 +119,7 @@ function Eye({ look, skin, uid }: { look: CharacterLook; skin: SkinTone; uid: st
         </radialGradient>
       </defs>
       {/* soft smoky shadow on the lid */}
-      <path d="M116 100 Q124 84 140 86.5 Q149 89 151 100 Q142 91 130 92 Q121 94 116 100 Z" fill={look.shadowColor} opacity="0.45" />
+      <path d="M116 100 Q124 84 140 86.5 Q149 89 151 100 Q142 91 130 92 Q121 94 116 100 Z" fill={look.shadowColor} opacity="0.3" />
       <path d={white} fill="#FFFFFF" />
       <g clipPath={`url(#${clip})`}>
         <circle cx="134" cy="105.5" r="8.8" fill={`url(#${iris})`} />
@@ -130,9 +130,8 @@ function Eye({ look, skin, uid }: { look: CharacterLook; skin: SkinTone; uid: st
       </g>
       {/* bold winged liner + lashes */}
       <path d={lid} fill={LASH} />
-      <path d="M120.5 97.5 L114.5 91 M125.5 94.6 L121.5 87.8 M131 93 L129 86.6" stroke={LASH} strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M119.5 106 Q127 115.5 140.5 114.3" stroke={LASH} strokeWidth="1.3" fill="none" strokeLinecap="round" />
-      <path d="M123 111.5 L120.5 114.5 M127.5 113.6 L126 116.8" stroke={LASH} strokeWidth="1" strokeLinecap="round" />
+      <path d="M119.5 98.5 L115 94 M124 96 L121 91.5 M129 95 L127.5 90.5" stroke={LASH} strokeWidth="1.1" strokeLinecap="round" />
+      <path d="M119.5 106 Q127 115.5 140.5 114.3" stroke={LASH} strokeWidth="0.8" fill="none" strokeLinecap="round" opacity="0.6" />
     </g>
   );
 }

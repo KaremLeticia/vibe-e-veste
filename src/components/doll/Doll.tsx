@@ -40,6 +40,24 @@ export function Doll({ composition, className, animateIds, title }: DollProps) {
 
   return (
     <svg viewBox="0 0 300 600" className={className} role="img" aria-label={title ?? `Personagem ${character.name}`}>
+      <defs>
+        {/* sticker look: thick white die-cut outline + soft drop shadow */}
+        <filter id={`${uid}-sticker`} x="-15%" y="-10%" width="130%" height="120%">
+          <feMorphology in="SourceAlpha" operator="dilate" radius="3.2" result="grow" />
+          <feFlood floodColor="#FFFFFF" />
+          <feComposite in2="grow" operator="in" result="white" />
+          <feGaussianBlur in="grow" stdDeviation="3" result="blur" />
+          <feOffset in="blur" dx="0" dy="3" result="off" />
+          <feFlood floodColor="#B0447A" floodOpacity="0.28" />
+          <feComposite in2="off" operator="in" result="shadow" />
+          <feMerge>
+            <feMergeNode in="shadow" />
+            <feMergeNode in="white" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <g filter={`url(#${uid}-sticker)`}>
       {LAYERS.map((layer) =>
         layer === "body" ? (
           <g key="body">
@@ -50,6 +68,7 @@ export function Doll({ composition, className, animateIds, title }: DollProps) {
           <g key={layer}>{layers[layer]}</g>
         ),
       )}
+      </g>
     </svg>
   );
 }
