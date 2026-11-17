@@ -5,6 +5,7 @@ import type { Composition } from "@/game/types";
 
 import { ART, CATEGORY_THUMB, LAYERS, THUMB_WITH_FACE, type ArtCtx, type Layer } from "./art";
 import { Body, Face } from "./body";
+import { DOLL_VIEWBOX, FashionFigure, fashionThumb } from "./proportions";
 
 interface DollProps {
   composition: Composition;
@@ -39,7 +40,7 @@ export function Doll({ composition, className, animateIds, title }: DollProps) {
   const layers = buildLayers(composition.itemIds, ctx, animateIds);
 
   return (
-    <svg viewBox="0 0 300 600" className={className} role="img" aria-label={title ?? `Personagem ${character.name}`}>
+    <svg viewBox={DOLL_VIEWBOX} className={className} role="img" aria-label={title ?? `Personagem ${character.name}`}>
       <defs>
         {/* sticker look: thick white die-cut outline + soft drop shadow */}
         <filter id={`${uid}-sticker`} x="-15%" y="-10%" width="130%" height="120%">
@@ -58,7 +59,7 @@ export function Doll({ composition, className, animateIds, title }: DollProps) {
         </filter>
       </defs>
       <g filter={`url(#${uid}-sticker)`}>
-      {LAYERS.map((layer) =>
+      <FashionFigure>{LAYERS.map((layer) =>
         layer === "body" ? (
           <g key="body">
             <Body skin={skin} uid={uid} />
@@ -67,7 +68,7 @@ export function Doll({ composition, className, animateIds, title }: DollProps) {
         ) : (
           <g key={layer}>{layers[layer]}</g>
         ),
-      )}
+      )}</FashionFigure>
       </g>
     </svg>
   );
@@ -87,8 +88,8 @@ export function ItemThumb({ itemId, composition, className }: { itemId: string; 
   const withFace = THUMB_WITH_FACE[item.category];
 
   return (
-    <svg viewBox={viewBox} className={className} aria-hidden="true">
-      {LAYERS.map((layer) =>
+    <svg viewBox={fashionThumb(viewBox)} className={className} aria-hidden="true">
+      <FashionFigure>{LAYERS.map((layer) =>
         layer === "body" ? (
           <g key="body" opacity={withFace ? 1 : 0.55}>
             <Body skin={skin} uid={uid} />
@@ -97,7 +98,7 @@ export function ItemThumb({ itemId, composition, className }: { itemId: string; 
         ) : (
           <g key={layer}>{layers[layer]}</g>
         ),
-      )}
+      )}</FashionFigure>
     </svg>
   );
 }

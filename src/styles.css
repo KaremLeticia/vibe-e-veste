@@ -69,6 +69,12 @@
 }
 
 :root {
+  --doll-ink: #493027;
+  --doll-highlight: #fffaf5;
+  --doll-basewear: #fff0f6;
+  --doll-basewear-edge: #d982a4;
+  --doll-blush: #ee8091;
+  --doll-lip-shade: #a33358;
   --radius: 1rem;
   --background: oklch(0.95 0.035 350);
   --foreground: oklch(0.3 0.13 350);
