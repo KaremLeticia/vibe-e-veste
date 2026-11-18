@@ -8,11 +8,12 @@ import {
   createHistory,
   removeItem,
   resetComposition,
+  resetOutfit,
   selectItem,
   undo,
   wornItems,
 } from "./logic";
-import type { Composition, History } from "./types";
+import type { CharacterLook, Composition, History } from "./types";
 
 export type Phase = "select" | "dress";
 
@@ -38,10 +39,12 @@ type Action =
   | { type: "hairColor"; id: string }
   | { type: "undo" }
   | { type: "reset" }
+  | { type: "resetBeauty" }
+  | { type: "setLook"; patch: Partial<CharacterLook> }
   | { type: "newLook" }
   | { type: "rename"; name: string };
 
-const STORAGE_KEY = "vibe-veste:v1";
+const STORAGE_KEY = "vibe-veste:v2";
 
 function fb(state: State, message: string, ids: string[] = []): Feedback {
   return { message, ids, nonce: (state.feedback?.nonce ?? 0) + 1 };
@@ -102,17 +105,44 @@ function reducer(state: State, action: Action): State {
       return { ...state, history, feedback: fb(state, "Última alteração desfeita", history.present.itemIds) };
     }
     case "reset": {
-      const next = resetComposition(present);
-      return { ...state, history: commit(state.history, next), feedback: fb(state, "Look reiniciado! (dá pra desfazer)", next.itemIds) };
+      const next = resetOutfit(present);
+      return { ...state, history: commit(state.history, next), feedback: fb(state, "Roupas removidas! (dá pra desfazer)", next.itemIds) };
+    }
+    case "resetBeauty": {
+      const fresh = resetComposition(present);
+      const clothes = present.itemIds.filter((id) => itemById(id)?.category !== "hair");
+      const next = { ...fresh, itemIds: [...fresh.itemIds, ...clothes] };
+      return { ...state, history: commit(state.history, next), feedback: fb(state, "Boneca de volta ao visual inicial", fresh.itemIds) };
+    }
+    case "setLook": {
+      const base = present.look ?? characterById(present.characterId).look;
+      return {
+        ...state,
+        history: commit(state.history, { ...present, look: { ...base, ...action.patch } }),
+        feedback: fb(state, "Visual atualizado!"),
+      };
     }
     case "newLook": {
-      const next = { ...resetComposition(present), lookName: "" };
+      const next = { ...resetOutfit(present), lookName: "" };
       return { ...state, history: createHistory(next), phase: "dress", feedback: fb(state, "Novo look! Bora criar?", next.itemIds) };
     }
     case "rename":
       // Naming the look is not a styling change, so it does not enter the undo history.
       return { ...state, history: { ...state.history, present: { ...present, lookName: action.name.slice(0, 40) } } };
   }
+}
+
+function sanitizeLook(raw: unknown): CharacterLook | undefined {
+  if (!raw || typeof raw !== "object") return undefined;
+  const l = raw as Partial<CharacterLook>;
+  const hex = (v: unknown) => typeof v === "string" && /^#[0-9a-fA-F]{6}$/.test(v);
+  if (!hex(l.eyeColor) || !hex(l.lipColor) || !hex(l.shadowColor)) return undefined;
+  if (!["round", "almond", "sleepy"].includes(l.eyeShape as string)) return undefined;
+  if (!["soft", "arched", "straight"].includes(l.brow as string)) return undefined;
+  return {
+    eyeShape: l.eyeShape!, eyeColor: l.eyeColor!, lipColor: l.lipColor!, shadowColor: l.shadowColor!, brow: l.brow!,
+    freckles: !!l.freckles, beautyMark: !!l.beautyMark, cheekSparkles: !!l.cheekSparkles,
+  };
 }
 
 function sanitize(raw: unknown): { composition: Composition; phase: Phase } | null {
@@ -128,6 +158,7 @@ function sanitize(raw: unknown): { composition: Composition; phase: Phase } | nu
       hairColorId: HAIR_COLORS.some((h) => h.id === c.hairColorId) ? (c.hairColorId as string) : HAIR_COLORS[0]!.id,
       itemIds: Array.isArray(c.itemIds) ? c.itemIds.filter((id): id is string => typeof id === "string" && known.has(id)) : [],
       lookName: typeof c.lookName === "string" ? c.lookName.slice(0, 40) : "",
+      look: sanitizeLook(c.look),
     },
     phase: r.phase === "dress" ? "dress" : "select",
   };
@@ -176,6 +207,8 @@ export function useStudio() {
     setHairColor: (id: string) => act({ type: "hairColor", id }),
     undo: () => act({ type: "undo" }),
     reset: () => act({ type: "reset" }),
+    resetBeauty: () => act({ type: "resetBeauty" }),
+    setLook: (patch: Partial<CharacterLook>) => act({ type: "setLook", patch }),
     newLook: () => act({ type: "newLook" }),
     rename: (name: string) => act({ type: "rename", name }),
   };

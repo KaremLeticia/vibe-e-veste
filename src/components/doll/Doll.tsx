@@ -72,7 +72,7 @@ export function Doll({ composition, className, animateIds, title }: DollProps) {
             layer === "body" ? (
               <g key="body">
                 <Body skin={skin} uid={uid} />
-                <Face look={character.look} skin={skin} hair={hair} uid={uid} />
+                <Face look={composition.look ?? character.look} skin={skin} hair={hair} uid={uid} />
               </g>
             ) : (
               <g key={layer}>{layers[layer]}</g>
@@ -112,7 +112,7 @@ export function ItemThumb({
           layer === "body" ? (
             <g key="body" opacity={withFace ? 1 : 0.55}>
               <Body skin={skin} uid={uid} />
-              {withFace && <Face look={character.look} skin={skin} hair={hair} uid={uid} />}
+              {withFace && <Face look={composition.look ?? character.look} skin={skin} hair={hair} uid={uid} />}
             </g>
           ) : (
             <g key={layer}>{layers[layer]}</g>

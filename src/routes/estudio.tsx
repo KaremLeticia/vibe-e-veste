@@ -1,10 +1,10 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { Crown, HelpCircle, Home, RotateCcw, Undo2, Users } from "lucide-react";
+import { Crown, HelpCircle, Home, RotateCcw, Undo2, Palette } from "lucide-react";
 import { useState } from "react";
 
 import { GameButton } from "@/components/game/GameButton";
 import { InstructionsDialog } from "@/components/game/InstructionsDialog";
-import { CharacterSelect } from "@/components/studio/CharacterSelect";
+import { DollCreator } from "@/components/studio/DollCreator";
 import { FinalLook } from "@/components/studio/FinalLook";
 import { ItemPanel } from "@/components/studio/ItemPanel";
 import { Stage } from "@/components/studio/Stage";
@@ -15,9 +15,9 @@ export const Route = createFileRoute("/estudio")({
   head: () => ({
     meta: [
       { title: "Estúdio — Vibe & Veste" },
-      { name: "description", content: "Escolha sua personagem e monte o look perfeito no closet Y2K do Vibe & Veste." },
+      { name: "description", content: "Crie sua boneca e monte o look perfeito no closet Y2K do Vibe & Veste." },
       { property: "og:title", content: "Estúdio — Vibe & Veste" },
-      { property: "og:description", content: "Escolha sua personagem e monte o look perfeito no closet Y2K do Vibe & Veste." },
+      { property: "og:description", content: "Crie sua boneca e monte o look perfeito no closet Y2K do Vibe & Veste." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -27,7 +27,7 @@ export const Route = createFileRoute("/estudio")({
 
 function StudioPage() {
   const studio = useStudio();
-  const [category, setCategory] = useState<CategoryId>("hair");
+  const [category, setCategory] = useState<CategoryId>("top");
   const [finalOpen, setFinalOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
   const dressing = studio.phase === "dress";
@@ -49,12 +49,12 @@ function StudioPage() {
         {dressing && (
           <>
             <GameButton variant="soft" size="sm" onClick={() => studio.setPhase("select")}>
-              <Users /> <span>Trocar personagem</span>
+              <Palette /> <span>Editar boneca</span>
             </GameButton>
             <GameButton variant="blue" size="sm" onClick={studio.undo} disabled={!studio.canUndo} title="Desfazer a última alteração">
               <Undo2 /> <span>Desfazer</span>
             </GameButton>
-            <GameButton variant="chrome" size="sm" onClick={studio.reset} title="Voltar a personagem ao visual inicial">
+            <GameButton variant="chrome" size="sm" onClick={studio.reset} title="Tirar todas as roupas (a boneca continua igual)">
               <RotateCcw /> <span>Reiniciar</span>
             </GameButton>
             <GameButton size="md" onClick={() => setFinalOpen(true)}>
@@ -73,7 +73,7 @@ function StudioPage() {
             </div>
           </div>
         ) : (
-          <CharacterSelect studio={studio} />
+          <DollCreator studio={studio} />
         )}
       </main>
 

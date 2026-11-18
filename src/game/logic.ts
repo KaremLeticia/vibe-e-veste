@@ -64,6 +64,11 @@ export function resetComposition(comp: Composition): Composition {
   return { ...fresh, lookName: comp.lookName };
 }
 
+/** Step 2 reset: removes every garment but keeps the doll created in step 1 (traits, skin and hair). */
+export function resetOutfit(comp: Composition): Composition {
+  return { ...comp, itemIds: comp.itemIds.filter((id) => itemById(id)?.category === "hair") };
+}
+
 export function wornItems(comp: Composition): Item[] {
   return comp.itemIds.map((id) => itemById(id)).filter((i): i is Item => !!i);
 }

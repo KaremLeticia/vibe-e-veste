@@ -8,6 +8,7 @@ import {
   createHistory,
   removeItem,
   resetComposition,
+  resetOutfit,
   selectItem,
   undo,
 } from "@/game/logic";
@@ -80,5 +81,13 @@ describe("Vibe & Veste rules", () => {
     expect(h.present.characterId).toBe("bia");
     h = undo(h);
     expect(h.present.itemIds).toContain("dress-slip");
+  });
+
+  it("closet reset removes clothes but keeps the doll's hair and traits", () => {
+    const look = { ...createComposition("bia"), look: { eyeShape: "almond" as const, eyeColor: "#3E8A5A", lipColor: "#D3263A", shadowColor: "#FFC857", brow: "arched" as const } };
+    const dressed = selectItem(look, "dress-slip").composition;
+    const next = resetOutfit(dressed);
+    expect(next.itemIds).toEqual(["hair-cacheado"]);
+    expect(next.look?.eyeColor).toBe("#3E8A5A");
   });
 });

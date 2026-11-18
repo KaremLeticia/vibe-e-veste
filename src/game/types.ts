@@ -66,6 +66,8 @@ export interface Composition {
   characterId: string;
   skinToneId: string;
   hairColorId: string;
+  /** Custom face traits chosen in step 1; falls back to the base character look. */
+  look?: CharacterLook;
   /** Ids of every worn item (hair included). */
   itemIds: string[];
   lookName: string;

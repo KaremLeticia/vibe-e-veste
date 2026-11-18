@@ -167,6 +167,49 @@ export const CHARACTERS: Character[] = [
   },
 ];
 
+export const EYE_COLORS = [
+  { id: "castanho", name: "Castanho", value: "#5A3320" },
+  { id: "escuro", name: "Café", value: "#2E1A12" },
+  { id: "mel", name: "Mel", value: "#A8702F" },
+  { id: "verde", name: "Verde", value: "#3E8A5A" },
+  { id: "azul", name: "Azul", value: "#3F8FD8" },
+  { id: "cinza", name: "Cinza", value: "#7E8A99" },
+  { id: "lilas", name: "Lilás", value: "#9B6BD8" },
+  { id: "rosa", name: "Rosa", value: "#E05A9B" },
+];
+
+export const LIP_COLORS = [
+  { id: "nude", name: "Nude", value: "#C98A7A" },
+  { id: "rosa", name: "Rosa bebê", value: "#FF8FB8" },
+  { id: "chiclete", name: "Chiclete", value: "#F06A9B" },
+  { id: "berry", name: "Berry", value: "#B8336A" },
+  { id: "vermelho", name: "Vermelho", value: "#D3263A" },
+  { id: "coral", name: "Coral", value: "#FF7A5C" },
+  { id: "vinho", name: "Vinho", value: "#7A1F3D" },
+  { id: "lilas", name: "Lilás", value: "#B57BD8" },
+];
+
+export const SHADOW_COLORS = [
+  { id: "rosa", name: "Rosa", value: "#FFB3D1" },
+  { id: "dourado", name: "Dourado", value: "#FFC857" },
+  { id: "azul", name: "Azul bebê", value: "#B8E2FF" },
+  { id: "lilas", name: "Lilás", value: "#D6B8FF" },
+  { id: "pessego", name: "Pêssego", value: "#FFC7A8" },
+  { id: "verde", name: "Menta", value: "#B8F0D2" },
+];
+
+export const EYE_SHAPES = [
+  { id: "round", name: "Redondos" },
+  { id: "almond", name: "Amendoados" },
+  { id: "sleepy", name: "Sonhadores" },
+] as const;
+
+export const BROW_STYLES = [
+  { id: "soft", name: "Suaves" },
+  { id: "arched", name: "Arqueadas" },
+  { id: "straight", name: "Retas" },
+] as const;
+
 export const LOOK_NAME_SUGGESTIONS = [
   "Barbie Mood",
   "Diva do Shopping",
