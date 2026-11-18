@@ -12,8 +12,21 @@ function Curl({ x, y, r, h }: { x: number; y: number; r: number; h: HairColor })
   return (
     <g>
       <circle cx={x} cy={y} r={r} fill={h.base} stroke={h.shade} strokeWidth="1.4" />
-      <path d={`M${x - s} ${y} a${s} ${s} 0 1 1 ${s} ${s}`} stroke={h.shade} strokeWidth="1.6" fill="none" strokeLinecap="round" />
-      <path d={`M${x - r * 0.5} ${y - r * 0.55} q${r * 0.3} ${-r * 0.25} ${r * 0.6} ${-r * 0.1}`} stroke={h.shine} strokeWidth="1.6" fill="none" strokeLinecap="round" opacity="0.8" />
+      <path
+        d={`M${x - s} ${y} a${s} ${s} 0 1 1 ${s} ${s}`}
+        stroke={h.shade}
+        strokeWidth="1.6"
+        fill="none"
+        strokeLinecap="round"
+      />
+      <path
+        d={`M${x - r * 0.5} ${y - r * 0.55} q${r * 0.3} ${-r * 0.25} ${r * 0.6} ${-r * 0.1}`}
+        stroke={h.shine}
+        strokeWidth="1.6"
+        fill="none"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
     </g>
   );
 }
@@ -24,7 +37,13 @@ function Kinky({ id, h }: { id: string; h: HairColor }) {
       <pattern id={id} width="9" height="9" patternUnits="userSpaceOnUse">
         <circle cx="2" cy="2" r="1.3" fill={h.shade} opacity="0.55" />
         <circle cx="6.5" cy="6" r="1.1" fill={h.shine} opacity="0.35" />
-        <path d="M5 1.5 q1.5 1 0 2.2" stroke={h.shade} strokeWidth="0.8" fill="none" opacity="0.6" />
+        <path
+          d="M5 1.5 q1.5 1 0 2.2"
+          stroke={h.shade}
+          strokeWidth="0.8"
+          fill="none"
+          opacity="0.6"
+        />
       </pattern>
     </defs>
   );
@@ -33,47 +52,121 @@ function Kinky({ id, h }: { id: string; h: HairColor }) {
 function bumpRing(cx: number, cy: number, R: number, n: number, r: number) {
   return Array.from({ length: n }, (_, i) => {
     const a = (i / n) * Math.PI * 2;
-    return [Math.round((cx + Math.cos(a) * R) * 100) / 100, Math.round((cy + Math.sin(a) * R) * 100) / 100, r] as const;
+    return [
+      Math.round((cx + Math.cos(a) * R) * 100) / 100,
+      Math.round((cy + Math.sin(a) * R) * 100) / 100,
+      r,
+    ] as const;
   });
 }
 
-function Braid({ x, y0, y1, h, bead }: { x: number; y0: number; y1: number; h: HairColor; bead: string }) {
+function Braid({
+  x,
+  y0,
+  y1,
+  h,
+  bead,
+}: {
+  x: number;
+  y0: number;
+  y1: number;
+  h: HairColor;
+  bead: string;
+}) {
   const segs = [];
   for (let y = y0; y < y1; y += 8) {
-    segs.push(<ellipse key={y} cx={x} cy={y} rx="4.8" ry="5.4" fill={h.base} stroke={h.shade} strokeWidth="1.1" />);
+    segs.push(
+      <ellipse
+        key={y}
+        cx={x}
+        cy={y}
+        rx="4.8"
+        ry="5.4"
+        fill={h.base}
+        stroke={h.shade}
+        strokeWidth="1.1"
+      />,
+    );
   }
   return (
     <g>
       {segs}
       <rect x={x - 3.5} y={y1 - 2} width="7" height="6" rx="2" fill={bead} />
-      <path d={`M${x - 2} ${y1 + 4} L${x - 3} ${y1 + 10} M${x + 2} ${y1 + 4} L${x + 3} ${y1 + 10} M${x} ${y1 + 4} L${x} ${y1 + 11}`} stroke={h.base} strokeWidth="1.5" strokeLinecap="round" />
+      <path
+        d={`M${x - 2} ${y1 + 4} L${x - 3} ${y1 + 10} M${x + 2} ${y1 + 4} L${x + 3} ${y1 + 10} M${x} ${y1 + 4} L${x} ${y1 + 11}`}
+        stroke={h.base}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
     </g>
   );
 }
 
-const CAP_SLICK = "M108 104 Q104 50 150 47 Q196 50 192 104 Q188 76 166 69 Q150 64 134 69 Q112 76 108 104 Z";
+const CAP_SLICK =
+  "M108 104 Q104 50 150 47 Q196 50 192 104 Q188 76 166 69 Q150 64 134 69 Q112 76 108 104 Z";
 
 export const HAIR_ART: Record<string, ArtEntry> = {
   "hair-liso": {
     parts: [
       {
         layer: "hairBack",
-        render: ({ hair: h }) => (
-          <path d="M104 100 Q100 42 150 41 Q200 42 196 100 L203 252 Q176 263 150 259 Q124 263 97 252 Z" fill={h.base} />
+        render: ({ hair: h, uid }) => (
+          <g>
+            <defs>
+              <linearGradient id={`${uid}-straight`} x1="0" x2="1">
+                <stop stopColor={h.shade} />
+                <stop offset="0.3" stopColor={h.base} />
+                <stop offset="0.5" stopColor={h.shine} />
+                <stop offset="0.7" stopColor={h.base} />
+                <stop offset="1" stopColor={h.shade} />
+              </linearGradient>
+            </defs>
+            <path
+              d="M105 99 Q99 40 150 40 Q201 40 195 99 Q198 158 205 236 Q183 258 150 249 Q119 257 95 236 Q104 159 105 99 Z"
+              fill={`url(#${uid}-straight)`}
+              stroke={h.shade}
+              strokeWidth="1.4"
+            />
+            <Both>
+              {[106, 111, 117, 123, 130].map((x) => (
+                <path
+                  key={x}
+                  d={`M${x} 105 Q${x - 5} 165 ${x - 1} 238`}
+                  stroke={h.shade}
+                  strokeWidth="0.8"
+                  opacity="0.65"
+                  fill="none"
+                />
+              ))}
+            </Both>
+          </g>
         ),
       },
       {
         layer: "hairFront",
         render: ({ hair: h }) => (
           <g>
-            <path d="M106 110 Q101 45 150 43 Q199 45 194 110 Q190 80 172 68 Q160 61 152 63 L150 70 L148 63 Q128 65 116 79 Q108 92 106 110 Z" fill={h.base} />
+            <path
+              d="M105 109 Q99 44 147 42 L150 50 Q142 76 115 89 Q112 126 117 165 L107 175 Q102 138 105 109 Z M150 50 L153 42 Q201 44 195 109 Q198 138 193 175 L183 165 Q188 126 185 89 Q158 76 150 50 Z"
+              fill={h.base}
+              stroke={h.shade}
+              strokeWidth="1.3"
+            />
             <Both>
-              <path d="M108 94 Q101 170 109 238 L123 233 Q115 170 117 101 Z" fill={h.base} />
-              <path d="M112 120 Q109 180 114 228" stroke={h.shade} strokeWidth="1.5" fill="none" opacity="0.6" />
+              {[0, 6, 12].map((d) => (
+                <path
+                  key={d}
+                  d={`M${145 - d} ${49 + d * 0.2} Q${140 - d} ${67 + d} ${111 + d * 0.25} ${83 + d * 0.4}`}
+                  stroke={h.shine}
+                  strokeWidth="2"
+                  fill="none"
+                  opacity="0.65"
+                  strokeLinecap="round"
+                />
+              ))}
+              <path d="M109 105 Q106 137 111 155" stroke={h.shine} strokeWidth="2" fill="none" />
             </Both>
-            <path d="M150 63 L150 46" stroke={h.shade} strokeWidth="1.4" />
-            {shine(h)}
-            {shine(h, "M160 52 Q176 55 186 68")}
+            <path d="M150 43 L150 52" stroke={h.shade} strokeWidth="1.2" />
           </g>
         ),
       },
@@ -83,24 +176,62 @@ export const HAIR_ART: Record<string, ArtEntry> = {
     parts: [
       {
         layer: "hairBack",
-        render: ({ hair: h }) => (
-          <path
-            d="M104 100 Q98 42 150 41 Q202 42 196 100 Q212 140 198 170 Q213 200 199 230 Q209 252 192 264 Q150 272 108 264 Q91 252 101 230 Q87 200 102 170 Q88 140 104 100 Z"
-            fill={h.base}
-          />
+        render: ({ hair: h, uid }) => (
+          <g>
+            <defs>
+              <linearGradient id={`${uid}-waves`} x1="0" x2="1">
+                <stop stopColor={h.shade} />
+                <stop offset="0.25" stopColor={h.base} />
+                <stop offset="0.5" stopColor={h.shine} />
+                <stop offset="0.8" stopColor={h.base} />
+                <stop offset="1" stopColor={h.shade} />
+              </linearGradient>
+            </defs>
+            <path
+              d="M105 100 Q96 41 150 40 Q204 41 195 100 Q214 127 202 149 Q190 169 206 192 Q221 215 204 237 Q218 260 192 281 Q178 269 166 267 L134 267 Q122 269 108 281 Q82 260 96 237 Q79 215 94 192 Q110 169 98 149 Q86 127 105 100 Z"
+              fill={`url(#${uid}-waves)`}
+              stroke={h.shade}
+              strokeWidth="1.3"
+            />
+            <Both>
+              {[0, 7, 14].map((d) => (
+                <path
+                  key={d}
+                  d={`M${105 + d} 103 Q${91 + d} 133 ${105 + d} 151 Q${119 + d} 176 ${103 + d} 198 Q${88 + d} 219 ${104 + d} 239 Q${116 + d} 252 ${107 + d} 268`}
+                  stroke={h.shade}
+                  strokeWidth="1"
+                  fill="none"
+                  opacity="0.65"
+                />
+              ))}
+            </Both>
+          </g>
         ),
       },
       {
         layer: "hairFront",
         render: ({ hair: h }) => (
           <g>
-            <path d="M106 112 Q100 45 150 43 Q200 45 194 112 Q191 78 167 66 Q140 70 119 91 Q110 100 106 112 Z" fill={h.base} />
-            <Both>
-              <path d="M108 98 Q97 140 110 170 Q97 202 112 238 L125 232 Q112 202 123 170 Q111 140 118 104 Z" fill={h.base} />
-              <path d="M112 128 Q106 150 115 168 Q106 196 116 224" stroke={h.shade} strokeWidth="1.5" fill="none" opacity="0.6" />
-            </Both>
-            <path d="M167 66 Q140 72 121 90" stroke={h.shade} strokeWidth="1.6" fill="none" opacity="0.7" />
-            {shine(h, "M122 66 Q138 52 158 52")}
+            <path
+              d="M150 44 Q114 38 106 71 Q100 87 112 105 Q88 123 105 145 Q116 160 102 178 Q87 198 106 216 Q123 233 108 253 Q132 250 128 229 Q125 215 119 209 Q106 197 119 180 Q137 160 121 142 Q106 126 123 111 Q142 98 128 79 Q143 68 150 52 Q157 74 180 82 Q188 93 178 105 Q168 121 184 137 Q196 151 182 171 Q170 189 187 205 Q199 220 187 240 Q212 226 201 205 Q188 186 199 171 Q211 152 198 133 Q182 116 194 102 Q206 86 193 65 Q179 38 150 44 Z"
+              fill={h.base}
+              stroke={h.shade}
+              strokeWidth="1.3"
+            />
+            <path
+              d="M145 49 Q118 47 113 69 Q107 84 119 100 Q101 121 114 139 Q130 158 114 177 Q99 196 115 212 Q131 233 114 247 M155 49 Q176 48 187 68 Q198 88 184 104 Q178 121 191 137 Q203 155 190 171 Q179 189 194 207 Q204 225 193 234"
+              stroke={h.shine}
+              strokeWidth="3.2"
+              strokeLinecap="round"
+              fill="none"
+              opacity="0.85"
+            />
+            <path
+              d="M142 55 Q122 53 119 69 M134 62 Q127 72 130 79 M158 56 Q168 68 182 73 M107 125 Q105 133 110 138 M112 185 Q108 193 112 201"
+              stroke={h.shine}
+              strokeWidth="1.2"
+              fill="none"
+            />
           </g>
         ),
       },
@@ -138,12 +269,12 @@ export const HAIR_ART: Record<string, ArtEntry> = {
               [174, 58, 13],
               [142, 51, 13],
               [158, 51, 13],
-              [128, 71, 10],
-              [172, 71, 10],
-              [143, 66, 10],
-              [158, 66, 10],
-            ].map(([x, y, r]) => (
-              <Curl key={`${x}-${y}`} x={x!} y={y!} r={r!} h={h} />
+              [121, 68, 9],
+              [179, 68, 9],
+              [139, 59, 9],
+              [161, 59, 9],
+            ].map(([x = 0, y = 0, r = 0]) => (
+              <Curl key={`${x}-${y}`} x={x} y={y} r={r} h={h} />
             ))}
           </g>
         ),
@@ -162,7 +293,14 @@ export const HAIR_ART: Record<string, ArtEntry> = {
             ))}
             <circle cx="150" cy="90" r="74" fill={h.base} />
             <circle cx="150" cy="90" r="82" fill={`url(#${uid}-kbp)`} />
-            <path d="M96 52 Q118 26 150 22" stroke={h.shine} strokeWidth="6" fill="none" strokeLinecap="round" opacity="0.35" />
+            <path
+              d="M96 52 Q118 26 150 22"
+              stroke={h.shine}
+              strokeWidth="6"
+              fill="none"
+              strokeLinecap="round"
+              opacity="0.35"
+            />
           </g>
         ),
       },
@@ -185,7 +323,14 @@ export const HAIR_ART: Record<string, ArtEntry> = {
           <g>
             <path d="M104 100 Q100 42 150 41 Q200 42 196 100 L196 122 L104 122 Z" fill={h.base} />
             {Array.from({ length: 12 }, (_, i) => (
-              <Braid key={i} x={100 + i * 9} y0={92} y1={262 + ((i * 37) % 22)} h={h} bead={i % 2 ? "#F5C542" : "#FF7EB9"} />
+              <Braid
+                key={i}
+                x={100 + i * 9}
+                y0={92}
+                y1={262 + ((i * 37) % 22)}
+                h={h}
+                bead={i % 2 ? "#F5C542" : "#FF7EB9"}
+              />
             ))}
           </g>
         ),
@@ -194,8 +339,15 @@ export const HAIR_ART: Record<string, ArtEntry> = {
         layer: "hairFront",
         render: ({ hair: h }) => (
           <g>
-            <path d="M106 108 Q102 45 150 43 Q198 45 194 108 Q190 78 166 68 L150 65 L134 68 Q110 78 106 108 Z" fill={h.base} />
-            <path d="M150 45 L150 65 M128 50 L132 70 M172 50 L168 70 M112 70 L120 84 M188 70 L180 84" stroke={h.shade} strokeWidth="1.3" />
+            <path
+              d="M106 108 Q102 45 150 43 Q198 45 194 108 Q190 78 166 68 L150 65 L134 68 Q110 78 106 108 Z"
+              fill={h.base}
+            />
+            <path
+              d="M150 45 L150 65 M128 50 L132 70 M172 50 L168 70 M112 70 L120 84 M188 70 L180 84"
+              stroke={h.shade}
+              strokeWidth="1.3"
+            />
             <Braid x={107} y0={100} y1={258} h={h} bead="#F5C542" />
             <Braid x={115} y0={104} y1={244} h={h} bead="#FF7EB9" />
             <Braid x={193} y0={100} y1={258} h={h} bead="#F5C542" />
@@ -216,9 +368,9 @@ export const HAIR_ART: Record<string, ArtEntry> = {
             {[
               [101, 52],
               [199, 52],
-            ].map(([cx, cy]) => (
+            ].map(([cx = 0, cy = 0]) => (
               <g key={cx}>
-                {bumpRing(cx!, cy!, 30, 14, 8).map(([x, y, r]) => (
+                {bumpRing(cx, cy, 30, 14, 8).map(([x = 0, y = 0, r = 0]) => (
                   <circle key={`${x}-${y}`} cx={x} cy={y} r={r} fill={h.base} />
                 ))}
                 <circle cx={cx} cy={cy} r="31" fill={h.base} />
@@ -233,12 +385,28 @@ export const HAIR_ART: Record<string, ArtEntry> = {
         layer: "hairFront",
         render: ({ hair: h }) => (
           <g>
-            <path d="M109 104 Q106 52 150 49 Q194 52 191 104 Q186 76 150 68 Q114 76 109 104 Z" fill={h.base} />
+            <path
+              d="M109 104 Q106 52 150 49 Q194 52 191 104 Q186 76 150 68 Q114 76 109 104 Z"
+              fill={h.base}
+            />
             <path d="M150 50 L150 68" stroke={h.shade} strokeWidth="1.3" />
             <Both>
-              <ellipse cx="120" cy="64" rx="9" ry="7" fill="#FF5FA2" transform="rotate(-35 120 64)" />
+              <ellipse
+                cx="120"
+                cy="64"
+                rx="9"
+                ry="7"
+                fill="#FF5FA2"
+                transform="rotate(-35 120 64)"
+              />
               <path d="M114 61 Q120 58 126 64" stroke="#FFC4DE" strokeWidth="1.6" fill="none" />
-              <path d="M112 97 q3 -7 8 -3 q-4 3 -2 7" stroke={h.shade} strokeWidth="1.3" fill="none" strokeLinecap="round" />
+              <path
+                d="M112 97 q3 -7 8 -3 q-4 3 -2 7"
+                stroke={h.shade}
+                strokeWidth="1.3"
+                fill="none"
+                strokeLinecap="round"
+              />
             </Both>
             {shine(h, "M126 60 Q140 52 158 52")}
           </g>
@@ -251,15 +419,26 @@ export const HAIR_ART: Record<string, ArtEntry> = {
       {
         layer: "hairBack",
         render: ({ hair: h }) => (
-          <path d="M104 100 Q100 42 150 41 Q200 42 196 100 L199 152 Q176 160 150 158 Q124 160 101 152 Z" fill={h.base} />
+          <path
+            d="M104 100 Q100 42 150 41 Q200 42 196 100 L199 152 Q176 160 150 158 Q124 160 101 152 Z"
+            fill={h.base}
+          />
         ),
       },
       {
         layer: "hairFront",
         render: ({ hair: h }) => (
           <g>
-            <path d="M104 152 Q97 44 150 43 Q203 44 196 152 L184 152 Q187 112 182 82 L170 83 L160 81 L150 83 L140 81 L130 83 L118 82 Q113 112 116 152 Z" fill={h.base} />
-            <path d="M130 60 L130 81 M150 58 L150 82 M170 60 L170 81" stroke={h.shade} strokeWidth="1.3" opacity="0.6" />
+            <path
+              d="M104 152 Q97 44 150 43 Q203 44 196 152 L184 152 Q187 112 182 82 L170 83 L160 81 L150 83 L140 81 L130 83 L118 82 Q113 112 116 152 Z"
+              fill={h.base}
+            />
+            <path
+              d="M130 60 L130 81 M150 58 L150 82 M170 60 L170 81"
+              stroke={h.shade}
+              strokeWidth="1.3"
+              opacity="0.6"
+            />
             {shine(h, "M116 70 Q130 52 150 50")}
           </g>
         ),
@@ -272,9 +451,25 @@ export const HAIR_ART: Record<string, ArtEntry> = {
         layer: "hairBack",
         render: ({ hair: h }) => (
           <g>
-            <path d="M156 52 Q208 28 218 84 Q228 142 210 218 Q198 202 197 170 Q192 122 186 98 Q176 66 156 60 Z" fill={h.base} />
-            <path d="M200 70 Q214 120 206 196" stroke={h.shade} strokeWidth="1.8" fill="none" opacity="0.7" />
-            <path d="M188 58 Q206 64 210 90" stroke={h.shine} strokeWidth="3.5" fill="none" strokeLinecap="round" opacity="0.6" />
+            <path
+              d="M156 52 Q208 28 218 84 Q228 142 210 218 Q198 202 197 170 Q192 122 186 98 Q176 66 156 60 Z"
+              fill={h.base}
+            />
+            <path
+              d="M200 70 Q214 120 206 196"
+              stroke={h.shade}
+              strokeWidth="1.8"
+              fill="none"
+              opacity="0.7"
+            />
+            <path
+              d="M188 58 Q206 64 210 90"
+              stroke={h.shine}
+              strokeWidth="3.5"
+              fill="none"
+              strokeLinecap="round"
+              opacity="0.6"
+            />
           </g>
         ),
       },
@@ -283,11 +478,23 @@ export const HAIR_ART: Record<string, ArtEntry> = {
         render: ({ hair: h }) => (
           <g>
             <path d={CAP_SLICK} fill={h.base} />
-            <path d="M120 72 Q150 58 172 56 M128 86 Q150 64 176 60" stroke={h.shade} strokeWidth="1.3" fill="none" opacity="0.55" />
+            <path
+              d="M120 72 Q150 58 172 56 M128 86 Q150 64 176 60"
+              stroke={h.shade}
+              strokeWidth="1.3"
+              fill="none"
+              opacity="0.55"
+            />
             <circle cx="172" cy="55" r="9" fill="#FF5FA2" />
             <circle cx="172" cy="55" r="4" fill="#FFC4DE" />
             <Both>
-              <path d="M112 90 Q105 118 114 146" stroke={h.base} strokeWidth="3.2" fill="none" strokeLinecap="round" />
+              <path
+                d="M112 90 Q105 118 114 146"
+                stroke={h.base}
+                strokeWidth="3.2"
+                fill="none"
+                strokeLinecap="round"
+              />
             </Both>
             {shine(h, "M118 70 Q130 56 148 52")}
           </g>
@@ -301,9 +508,27 @@ export const HAIR_ART: Record<string, ArtEntry> = {
         layer: "hairBack",
         render: ({ hair: h }) => (
           <Both>
-            <path d="M124 50 Q100 40 94 80 Q86 150 94 225 Q98 275 114 305 Q118 262 113 222 Q106 155 113 95 Q117 70 132 60 Z" fill={h.base} stroke={h.shade} strokeWidth="1.2" />
-            <path d="M104 90 Q97 160 104 230 M110 110 Q106 180 110 260" stroke={h.shade} strokeWidth="1.4" fill="none" opacity="0.7" />
-            <path d="M100 80 Q96 120 98 160" stroke={h.shine} strokeWidth="2.5" fill="none" opacity="0.6" strokeLinecap="round" />
+            <path
+              d="M124 50 Q100 40 94 80 Q86 150 94 225 Q98 275 114 305 Q118 262 113 222 Q106 155 113 95 Q117 70 132 60 Z"
+              fill={h.base}
+              stroke={h.shade}
+              strokeWidth="1.2"
+            />
+            <path
+              d="M104 90 Q97 160 104 230 M110 110 Q106 180 110 260"
+              stroke={h.shade}
+              strokeWidth="1.4"
+              fill="none"
+              opacity="0.7"
+            />
+            <path
+              d="M100 80 Q96 120 98 160"
+              stroke={h.shine}
+              strokeWidth="2.5"
+              fill="none"
+              opacity="0.6"
+              strokeLinecap="round"
+            />
           </Both>
         ),
       },
@@ -313,10 +538,21 @@ export const HAIR_ART: Record<string, ArtEntry> = {
           <g>
             <path d={CAP_SLICK} fill={h.base} />
             <path d="M150 48 L150 66" stroke={h.shade} strokeWidth="1.6" />
-            <path d="M120 64 Q134 56 148 54 M152 54 Q166 56 180 64" stroke={h.shade} strokeWidth="1.2" fill="none" opacity="0.7" />
+            <path
+              d="M120 64 Q134 56 148 54 M152 54 Q166 56 180 64"
+              stroke={h.shade}
+              strokeWidth="1.2"
+              fill="none"
+              opacity="0.7"
+            />
             <Both>
               <ellipse cx="124" cy="53" rx="6" ry="4.5" fill="#1E1418" />
-              <path d="M113 78 Q105 120 112 168 Q116 140 117 110 Q118 92 122 80 Z" fill={h.base} stroke={h.shade} strokeWidth="1" />
+              <path
+                d="M113 78 Q105 120 112 168 Q116 140 117 110 Q118 92 122 80 Z"
+                fill={h.base}
+                stroke={h.shade}
+                strokeWidth="1"
+              />
             </Both>
             {shine(h, "M122 66 Q134 57 146 56")}
           </g>
@@ -331,7 +567,13 @@ export const HAIR_ART: Record<string, ArtEntry> = {
         render: ({ hair: h }) => (
           <g>
             <circle cx="150" cy="38" r="25" fill={h.base} />
-            <path d="M130 28 Q120 14 128 8 M168 22 Q182 10 178 4 M150 14 Q148 2 156 0 M172 40 Q188 38 190 28" stroke={h.base} strokeWidth="3.5" fill="none" strokeLinecap="round" />
+            <path
+              d="M130 28 Q120 14 128 8 M168 22 Q182 10 178 4 M150 14 Q148 2 156 0 M172 40 Q188 38 190 28"
+              stroke={h.base}
+              strokeWidth="3.5"
+              fill="none"
+              strokeLinecap="round"
+            />
             <path d="M136 36 Q150 24 164 36" stroke={h.shade} strokeWidth="2" fill="none" />
             <path d="M104 100 Q100 50 150 46 Q200 50 196 100 L196 112 L104 112 Z" fill={h.base} />
           </g>
@@ -343,8 +585,17 @@ export const HAIR_ART: Record<string, ArtEntry> = {
           <g>
             <path d={CAP_SLICK} fill={h.base} />
             <Both>
-              <path d="M150 48 Q118 52 110 90 Q105 124 116 152 L125 149 Q116 122 122 94 Q130 68 150 62 Z" fill={h.shine} />
-              <path d="M146 54 Q124 62 117 96 Q113 124 119 146" stroke={h.base} strokeWidth="1.2" fill="none" opacity="0.5" />
+              <path
+                d="M150 48 Q118 52 110 90 Q105 124 116 152 L125 149 Q116 122 122 94 Q130 68 150 62 Z"
+                fill={h.shine}
+              />
+              <path
+                d="M146 54 Q124 62 117 96 Q113 124 119 146"
+                stroke={h.base}
+                strokeWidth="1.2"
+                fill="none"
+                opacity="0.5"
+              />
             </Both>
             <path d="M150 48 L150 62" stroke={h.shade} strokeWidth="1.3" />
           </g>

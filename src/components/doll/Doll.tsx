@@ -16,7 +16,10 @@ interface DollProps {
 }
 
 function buildLayers(itemIds: string[], ctx: ArtCtx, animateIds: string[] = []) {
-  const layers = Object.fromEntries(LAYERS.map((l) => [l, [] as ReactNode[]])) as Record<Layer, ReactNode[]>;
+  const layers = Object.fromEntries(LAYERS.map((l) => [l, [] as ReactNode[]])) as Record<
+    Layer,
+    ReactNode[]
+  >;
   for (const id of itemIds) {
     const art = ART[id];
     if (!art) continue;
@@ -40,7 +43,12 @@ export function Doll({ composition, className, animateIds, title }: DollProps) {
   const layers = buildLayers(composition.itemIds, ctx, animateIds);
 
   return (
-    <svg viewBox={DOLL_VIEWBOX} className={className} role="img" aria-label={title ?? `Personagem ${character.name}`}>
+    <svg
+      viewBox={DOLL_VIEWBOX}
+      className={className}
+      role="img"
+      aria-label={title ?? `Personagem ${character.name}`}
+    >
       <defs>
         {/* sticker look: thick white die-cut outline + soft drop shadow */}
         <filter id={`${uid}-sticker`} x="-15%" y="-10%" width="130%" height="120%">
@@ -59,23 +67,33 @@ export function Doll({ composition, className, animateIds, title }: DollProps) {
         </filter>
       </defs>
       <g filter={`url(#${uid}-sticker)`}>
-      <FashionFigure>{LAYERS.map((layer) =>
-        layer === "body" ? (
-          <g key="body">
-            <Body skin={skin} uid={uid} />
-            <Face look={character.look} skin={skin} hair={hair} uid={uid} />
-          </g>
-        ) : (
-          <g key={layer}>{layers[layer]}</g>
-        ),
-      )}</FashionFigure>
+        <FashionFigure>
+          {LAYERS.map((layer) =>
+            layer === "body" ? (
+              <g key="body">
+                <Body skin={skin} uid={uid} />
+                <Face look={character.look} skin={skin} hair={hair} uid={uid} />
+              </g>
+            ) : (
+              <g key={layer}>{layers[layer]}</g>
+            ),
+          )}
+        </FashionFigure>
       </g>
     </svg>
   );
 }
 
 /** Small preview of one item on a bare doll of the current character. */
-export function ItemThumb({ itemId, composition, className }: { itemId: string; composition: Composition; className?: string }) {
+export function ItemThumb({
+  itemId,
+  composition,
+  className,
+}: {
+  itemId: string;
+  composition: Composition;
+  className?: string;
+}) {
   const uid = `t${useId().replace(/[^a-zA-Z0-9]/g, "")}`;
   const item = itemById(itemId);
   if (!item) return null;
@@ -89,16 +107,18 @@ export function ItemThumb({ itemId, composition, className }: { itemId: string; 
 
   return (
     <svg viewBox={fashionThumb(viewBox)} className={className} aria-hidden="true">
-      <FashionFigure>{LAYERS.map((layer) =>
-        layer === "body" ? (
-          <g key="body" opacity={withFace ? 1 : 0.55}>
-            <Body skin={skin} uid={uid} />
-            {withFace && <Face look={character.look} skin={skin} hair={hair} uid={uid} />}
-          </g>
-        ) : (
-          <g key={layer}>{layers[layer]}</g>
-        ),
-      )}</FashionFigure>
+      <FashionFigure>
+        {LAYERS.map((layer) =>
+          layer === "body" ? (
+            <g key="body" opacity={withFace ? 1 : 0.55}>
+              <Body skin={skin} uid={uid} />
+              {withFace && <Face look={character.look} skin={skin} hair={hair} uid={uid} />}
+            </g>
+          ) : (
+            <g key={layer}>{layers[layer]}</g>
+          ),
+        )}
+      </FashionFigure>
     </svg>
   );
 }

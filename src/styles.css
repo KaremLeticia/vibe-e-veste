@@ -75,6 +75,7 @@
   --doll-basewear-edge: #d982a4;
   --doll-blush: #ee8091;
   --doll-lip-shade: #a33358;
+  --doll-denim-cuff: #b9d1f2;
   --radius: 1rem;
   --background: oklch(0.95 0.035 350);
   --foreground: oklch(0.3 0.13 350);
@@ -458,4 +459,8 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-flash { opacity: 0; animation: none; }
 }

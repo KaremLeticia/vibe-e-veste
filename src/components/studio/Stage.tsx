@@ -12,15 +12,27 @@ export function Stage({ studio }: { studio: Studio }) {
   const { composition, feedback } = studio;
   const character = characterById(composition.characterId);
   const worn = wornItems(composition).sort(
-    (a, b) => CATEGORIES.findIndex((c) => c.id === a.category) - CATEGORIES.findIndex((c) => c.id === b.category),
+    (a, b) =>
+      CATEGORIES.findIndex((c) => c.id === a.category) -
+      CATEGORIES.findIndex((c) => c.id === b.category),
   );
 
   return (
-    <GameWindow title={`estúdio · ${character.name}`} className="h-full" bodyClassName="flex flex-col">
-      <div className="checker stage-bg relative flex min-h-[420px] flex-1 items-end justify-center overflow-hidden">
+    <GameWindow
+      title={`estúdio · ${character.name}`}
+      className="h-full"
+      bodyClassName="flex flex-col"
+    >
+      <div className="checker stage-bg relative flex min-h-[420px] pt-14 flex-1 items-end justify-center overflow-hidden">
         <Sparkles />
-        <div className="absolute bottom-4 left-1/2 h-10 w-[58%] max-w-[300px] -translate-x-1/2 rounded-[50%] border-[3px] border-primary-deep bg-primary-glow" aria-hidden />
-        <div className="absolute bottom-8 left-1/2 h-10 w-[54%] max-w-[280px] -translate-x-1/2 rounded-[50%] border-[3px] border-primary-deep bg-chrome" aria-hidden />
+        <div
+          className="absolute bottom-4 left-1/2 h-10 w-[58%] max-w-[300px] -translate-x-1/2 rounded-[50%] border-[3px] border-primary-deep bg-primary-glow"
+          aria-hidden
+        />
+        <div
+          className="absolute bottom-8 left-1/2 h-10 w-[54%] max-w-[280px] -translate-x-1/2 rounded-[50%] border-[3px] border-primary-deep bg-chrome"
+          aria-hidden
+        />
         <SparkleBurst burstKey={feedback?.nonce ?? 0} />
         <Doll
           composition={composition}
@@ -42,7 +54,9 @@ export function Stage({ studio }: { studio: Studio }) {
       <div className="border-t-[3px] border-primary-deep bg-muted/70 p-3">
         <p className="mb-2 font-pixel text-[0.65rem] uppercase text-primary-deep">No look agora</p>
         {worn.length === 0 ? (
-          <p className="text-sm text-muted-foreground">Nenhuma peça ainda — abra o closet e escolha!</p>
+          <p className="text-sm text-muted-foreground">
+            Nenhuma peça ainda — abra o closet e escolha!
+          </p>
         ) : (
           <ul className="flex flex-wrap gap-2">
             {worn.map((item) => (
