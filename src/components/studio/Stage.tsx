@@ -19,7 +19,7 @@ export function Stage({ studio }: { studio: Studio }) {
 
   return (
     <GameWindow
-      title={`estúdio · ${character.name}`}
+      title="estúdio · sua boneca"
       className="h-full"
       bodyClassName="flex flex-col"
     >

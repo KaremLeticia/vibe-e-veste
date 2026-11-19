@@ -177,7 +177,7 @@ export function FinalLook({
                 <p className="font-pixel text-[0.65rem] uppercase text-muted-foreground">apresentando</p>
                 <p className="pink-text mt-1 break-words font-display text-3xl leading-tight">{name}</p>
                 <p className="mt-3 text-sm leading-snug text-primary-deep">
-                  Arrasou! {character.name} está pronta para brilhar com {pieces} {pieces === 1 ? "peça escolhida" : "peças escolhidas"} por você. Esse
+                  Arrasou! Sua boneca está pronta para brilhar com {pieces} {pieces === 1 ? "peça escolhida" : "peças escolhidas"} por você. Esse
                   look é a cara da passarela!
                 </p>
               </div>

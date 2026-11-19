@@ -30,3 +30,4 @@ use the editor.
 <!-- LOVABLE:END -->
 
 - Render dolls and all wearable thumbnails through the shared FashionFigure coordinate mapping so longer fashion proportions never misalign garments and accessories.
+- The studio is a two-step flow (doll creator, then closet) on one base doll; custom face traits live in Composition.look so new traits only need catalog entries.
